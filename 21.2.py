@@ -27,4 +27,5 @@ for line in lines:
         monkeys[monkey.strip()] = tuple([part for part in parts])
 monkeys['humn'] = 'x'
 expr = get_expr(monkeys['root'][0]) + ' - ' + get_expr(monkeys['root'][2])
+print(expr)
 print(sympy.solvers.solve(expr,'x'))
