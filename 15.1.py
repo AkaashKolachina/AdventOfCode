@@ -1,3 +1,4 @@
+
 from sys import argv
 
 def process(lines):
@@ -21,12 +22,20 @@ def get_dist(point_1, point_2):
     return abs(point_1[0] - point_2[0]) + abs(point_1[1] - point_2[1])
 
 def add_points(x_1, x_2):
-    for x in range(x_1, x_2 + 1):
-        if (x,y) not in beacons:
-            empty.add(x)
+    copy = []
+    for i in range(len(ranges)):
+        p_1, p_2 = ranges[i]
+        if max(x_1,p_1) <= min(x_2, p_2):
+            x_1 = min(x_1,p_1)
+            x_2 = max(x_2,p_2)
+        else:
+            copy.append(ranges[i])
+    copy.append([x_1,x_2])
+    return copy
 
 lines = []
 beacons = set()
+ranges = []
 with open(argv[1],"r") as f:
     lines = f.readlines()
 
@@ -44,7 +53,18 @@ for sensor in s_to_b:
     x_d = dist - y_d
     min_x = sensor[0] - x_d
     max_x = sensor[0] + x_d
-    add_points(min_x,max_x)
+    if beacon[1] == y:
+        if beacon[0] == min_x:
+            min_x += 1
+        if beacon[0] == max_x:
+            max_x -= 1
+        if max_x < min_x:
+            continue
+    ranges = add_points(min_x,max_x)
 
 
-print(len(empty))
+spots = 0
+for range in ranges:
+    x,y = range
+    spots += (y - x + 1)
+print(spots)
