@@ -1,6 +1,4 @@
 from sys import argv
-from os import system
-from time import sleep
 import re
     
 def move(steps):
@@ -30,7 +28,6 @@ for i in range(len(grid)):
     pad = [' '] * (max_len - len(grid[i]))
     grid[i] = grid[i] + pad
 grid = [[' '] * max_len] + grid + [[' '] * max_len]
-
     
 dirs = [(0,1),(1,0),(0,-1),(-1,0)]
 dir_chars = ['R', 'D', 'L', 'U']
