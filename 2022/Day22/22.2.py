@@ -1,10 +1,65 @@
 from sys import argv
 import re
 from collections import defaultdict
-    
+
+def wrap():
+    if faces[cur] == 1:
+        if dir_chars[dir] == 'L':
+            if cur[0] < (face_bounds[1][0][0] + 25):
+                new_r = (face_bounds[4][2][0] - (cur[0] - face_bounds[1][0][0]))
+                new_c = face_bounds[4][2][1]
+                return (new_r,new_c), 0
+            else:
+                new_r = (face_bounds[4][0][0] + (face_bounds[1][2][0] - cur[0]))
+                new_c = face_bounds[4][0][1]
+                return (new_r,new_c), 0
+        elif dir_chars[dir] == 'U':
+            if cur[1] < (face_bounds[1][0][1] + 25):
+                new_r = (face_bounds[6][0][0] + (cur[1] - face_bounds[1][2][1]))
+                new_c = face_bounds[6][0][1]
+                return (new_r,new_c), 0
+            else:
+                new_r = (face_bounds[6][2][0] - (face_bounds[1][1][1] - cur[1]))
+                new_c = face_bounds[6][0][1]
+                return (new_r,new_c), 0
+    elif faces[cur] == 2:
+        if dir_chars[dir] == 'R':
+            if cur[0] < (face_bounds[2][1][0] + 25):
+                new_r = (face_bounds[5][3][0] - (cur[0] - face_bounds[2][1][0]))
+                new_c = face_bounds[5][1][1]
+                return (new_r,new_c), 2
+            else:
+                new_r = (face_bounds[5][1][0] + (face_bounds[2][3][0] - cur[0]))
+                new_c = face_bounds[5][1][1]
+                return (new_r,new_c), 2
+        elif dir_chars[dir] == 'U':
+            if cur[1] < (face_bounds[2][0][1] + 25):
+                new_r = face_bounds[6][2][0]
+                new_c = (face_bounds[6][2][1] + (cur[1] - face_bounds[2][0][1]))
+                return (new_r,new_c), 3
+            else:
+                new_r = face_bounds[6][2][0]
+                new_c = (face_bounds[6][3][1] - (face_bounds[2][1][1] - cur[1]))
+                return (new_r,new_c), 3
+        elif dir_chars[dir] == 'D':
+            pass
+
+
 def move(steps):
     global dir
-    pass
+    for _ in range(steps):
+        global cur
+        is_wrapped = False
+        next = ((cur[0] + dirs[dir][0]), (cur[1] + dirs[dir][1]))
+        if grid[next[0]][next[1]] == ' ':
+            next, new_dir = wrap()
+            is_wrapped = True
+        if grid[next[0]][next[1]] == '#':
+            break
+        cur = next
+        if is_wrapped:
+            dir = new_dir
+        grid[cur[0]][cur[1]] = dir_chars[dir]
 
 
 *grid, _, path = open(argv[1])
@@ -111,6 +166,9 @@ for i in range(len(path)):
 
 row = cur[0] 
 col = cur[1] 
+grid[cur[0]][cur[1]] = 'E'
+for r in range(len(grid)):
+        print(''.join(grid[r]))
 print("row : {}".format(row))
 print("col : {}".format(col))
 print("facing : {}".format(dir))
