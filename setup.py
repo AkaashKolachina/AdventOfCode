@@ -5,7 +5,7 @@ import re
 # Create Year Folders 
 years = ["2022", "2023"]
 days = ["Day{}".format(i) for i in range(1,26)]
-'''
+
 for year in years:
     os.makedirs(year)
     for day in days:
@@ -21,12 +21,11 @@ for file in files:
     elif re.match(r"d(\d+)input\.txt", file.strip()):
         i = int(re.match(r"d(\d+)input\.txt", file.strip()).group(1))
         shutil.move(file, os.path.join("2022", "Day{}".format(i)))
-'''
 
 # For 2023 Setup python and blank input files
 year = "2023"
 for day in days:
-    files = ["{}.1.py".format(day), "{}.2.py".format(day), "input.txt", "test.txt"]
+    dir = os.path.join(year, day)
+    files = ["{}.1.py".format(day[-1]), "{}.2.py".format(day[-1]), "input.txt", "test.txt"]
     for file in files:
-        dir = os.path.join(year, day)
         open(os.path.join(dir, file), 'a').close() 
