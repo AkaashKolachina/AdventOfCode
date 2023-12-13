@@ -24,8 +24,9 @@ for file in files:
 
 # For 2023 Setup python and blank input files
 year = "2023"
-for day in days:
+for i in range(1,26):
+    day = "Day{}".format(i)
     dir = os.path.join(year, day)
-    files = ["{}.1.py".format(day[-1]), "{}.2.py".format(day[-1]), "input.txt", "test.txt"]
+    files = ["{}.1.py".format(i), "{}.2.py".format(i), "input.txt", "test.txt"]
     for file in files:
         open(os.path.join(dir, file), 'a').close() 
