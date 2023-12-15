@@ -13,6 +13,27 @@ def convert_num(num, map):
             return (num - src) + dst
     return num
 
+def map_range(ranges, map):
+    proceessed = []
+    for dst,src,step in map:
+        buffer = []
+        for entry in ranges:
+            start = entry[0]
+            end = start + entry[1]
+            src_end = src + step
+            pre = (start,min(end,src))
+            overlap = (max(start, src), min(src_end, end))
+            post = (max(src_end, start), end)
+            if pre[1] > pre[0]:
+                buffer.append(pre)
+            if overlap[1] > overlap[0]:
+                proceessed.append((overlap[0]-src+dst, overlap[1]-src+dst))
+            if post[1] > post[0]:
+                buffer.append(post)
+        ranges = buffer
+    return ranges + proceessed
+
+
 seeds = []
 ranges = []
 maps = []
@@ -29,4 +50,8 @@ for line in lines:
          matches = re.findall('\d+', line)
          maps[-1].append(tuple([int(x) for x in matches]))
 
-    
+for seed in seeds:
+    ranges = [seed]
+    for map in maps:
+        ranges = map_range(ranges, map)
+    print(min(ranges))
