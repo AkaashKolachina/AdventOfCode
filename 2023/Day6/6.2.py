@@ -8,10 +8,32 @@ lines = [x for x in data.split('\n')]
 time = int(''.join(re.findall(r'\d+',lines[0])))
 dist = int(''.join(re.findall(r'\d+',lines[1])))
 
-num_ways = 0
+def get_dist(i):
+    return i*(time - i)
 
-for i in range(time + 1):
-    if i*(time - i) > dist:
-        num_ways += 1
-print(num_ways)
+def comp_min():
+    left = 0
+    right = time
+    while left < right:
+        mid = (left + right) // 2
+        # mid should always be > 0 and < time
+        if get_dist(mid - 1) < dist and get_dist(mid + 1) > dist:
+            return mid
+        elif get_dist(mid - 1) < dist and get_dist(mid + 1) < dist:
+            left = mid + 1
+        else:
+            right = mid - 1
 
+def comp_max():
+    left = 0
+    right = time
+    while left < right:
+        mid = (left + right) // 2
+        if get_dist(mid - 1) > dist and get_dist(mid + 1) < dist:
+            return mid
+        elif get_dist(mid - 1) < dist and get_dist(mid + 1) < dist:
+            right = mid - 1
+        else:
+            left = mid + 1
+
+print(comp_max() - comp_min())
