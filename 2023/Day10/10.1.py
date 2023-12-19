@@ -4,6 +4,14 @@ import networkx as nx
 input = sys.argv[1] if len(sys.argv)>1 else 'input.txt'
 data = open(input).read().strip()
 grid = [list(x) for x in data.split('\n')]
+num_rows = len(grid)
+num_cols = len(grid[0])
+
+pipe_data = {'-':['left', 'right'], '|':['up', 'down'], 'F':['right', 'down'], 'L':['right', 'up'], 'J':['left', 'up'], '7':['left', 'down'], '.':[]}
+rights = {'-', 'F', 'L'}
+lefts = {'-', 'J', '7'}
+ups = {'|', 'L', 'J'}
+downs = {'|', 'F', '7'}
 
 def get_neighbors(node):
     i,j = node
@@ -34,19 +42,11 @@ def get_neighbors(node):
 
 
 if __name__ == '__main__':
-    num_rows = len(grid)
-    num_cols = len(grid[0])
     nodes = [(i,j) for i in range(num_rows) for j in range(num_cols)]
     start = (-1,-1)
     for node in nodes:
         if grid[node[0]][node[1]] == 'S':
             start = node
-   
-    pipe_data = {'-':['left', 'right'], '|':['up', 'down'], 'F':['right', 'down'], 'L':['right', 'up'], 'J':['left', 'up'], '7':['left', 'down'], '.':[]}
-    rights = {'-', 'F', 'L'}
-    lefts = {'-', 'J', '7'}
-    ups = {'|', 'L', 'J'}
-    downs = {'|', 'F', '7'}
 
     # Try all pipes to get desired cycle
     for pipe in pipe_data:
