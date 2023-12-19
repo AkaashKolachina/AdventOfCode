@@ -74,7 +74,8 @@ if __name__ == '__main__':
             cycle = nx.find_cycle(G, source=start)
             print(f"Valid cycle when S is {pipe}")
 
-            vertices = [(x,num_rows - y) for ((x,y), (_,_)) in cycle]
+            # No need to convert to cartesian I think?
+            vertices = [(x,y) for ((x,y), (_,_)) in cycle]
             area = calc_area(vertices)
 
             # Picks: A = i + (b/2) - 1 -> solve for i
