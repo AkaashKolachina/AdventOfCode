@@ -33,27 +33,10 @@ def move_south():
                     else:
                         break
 
-def move_east():
-    for row in rock_grid:
-        i = 0
-        while i < len(row) - 1:
-            if row[i] == 'O':
-                j = i + 1
-                while j < len(row):
-                    if row[j] == '.':
-                        row[j - 1] = '.'
-                        row[j] = 'O'
-                        j += 1
-                    else:
-                        break
-                i = j
-            else:
-                i += 1
-
 def move_west():
     for row in rock_grid:
-        i = len(row) - 1
-        while i >= 0:
+        i = 1
+        while i < len(row):
             if row[i] == 'O':
                 j = i - 1
                 while j >= 0:
@@ -63,7 +46,24 @@ def move_west():
                         j -= 1
                     else:
                         break
-                i = j
+                i += 1
+            else:
+                i += 1
+
+def move_east():
+    for row in rock_grid:
+        i = len(row) - 2
+        while i >= 0:
+            if row[i] == 'O':
+                j = i + 1
+                while j < len(row):
+                    if row[j] == '.':
+                        row[j - 1] = '.'
+                        row[j] = 'O'
+                        j += 1
+                    else:
+                        break
+                i -= 1
             else:
                 i -= 1
 
@@ -73,12 +73,30 @@ def cycle():
     move_south()
     move_east()
 
-for _ in tqdm(range(5)):
-    cycle()
-    print()
-    for row in rock_grid:
-        print(row)
+def freeze(grid):
+    return tuple([tuple(row) for row in grid])
 
+num_spins = 1000
+states = {}
+cycle_found = False
+t = 1
+start = -1
+while not cycle_found:
+    cycle()
+    state = freeze(rock_grid)
+    if state not in states:
+        states[state] = t
+        t += 1 
+    else:
+        cycle_found = True
+        start = states[state]
+
+cycle_length = t - start
+num_cycles = (num_spins - start) // cycle_length
+
+# Probably could just optimize by finding state in states instead of cycling more
+for _ in range(start + num_cycles * cycle_length, num_spins):
+    cycle()
 
 
 
