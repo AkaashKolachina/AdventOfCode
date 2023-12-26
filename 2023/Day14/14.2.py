@@ -76,7 +76,7 @@ def cycle():
 def freeze(grid):
     return tuple([tuple(row) for row in grid])
 
-num_spins = 1000
+num_spins = 1000000000
 states = {}
 cycle_found = False
 t = 1
