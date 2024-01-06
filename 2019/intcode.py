@@ -8,15 +8,17 @@ JZ = 6
 LT = 7
 EQ = 8
 
-def run(program, input = None):
+def run(program, input = []):
     i = 0
+    outputs = []
     while True:
         op = program[i]
         if op == HALT:
-            break
+            return outputs
         elif op == IN:
             to_write = program[i + 1]
-            program[to_write] = input
+            program[to_write] = input[0]
+            input = input[1:]
             i += 2
         else:
             # Handle codes with multiple modes
@@ -25,7 +27,7 @@ def run(program, input = None):
             op = int(op[-2:])
             p1 = program[i + 1] if int(modes[0]) else program[program[i + 1]]
             if op == OUT:
-                print(p1)
+                outputs.append(p1)
                 i += 2
             else:
                 p2 = program[i + 2] if int(modes[1]) else program[program[i + 2]]
