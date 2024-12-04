@@ -1,5 +1,4 @@
 import sys
-from collections import deque
 
 input = sys.argv[1] if len(sys.argv)>1 else 'input.txt'
 data = open(input).read().strip()
