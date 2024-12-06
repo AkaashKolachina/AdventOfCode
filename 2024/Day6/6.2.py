@@ -1,5 +1,4 @@
 import sys
-import copy 
 from tqdm import tqdm
 
 input = sys.argv[1] if len(sys.argv)>1 else 'input.txt'
@@ -22,8 +21,6 @@ for i in tqdm(range(len(grid))):
             found_loop = False
             dir_idx = 0
             steps = set()
-            grid_var = copy.deepcopy(grid)
-            grid_var[i][j] = '#'
             pos = start
             while not found_loop:
                 steps.add((pos,dir_idx))
@@ -35,7 +32,7 @@ for i in tqdm(range(len(grid))):
                         found_loop = True
                         break
 
-                    if grid_var[i2][j2] == '#':
+                    if grid[i2][j2] == '#' or (i2 == i and j2 == j):
                         dir_idx = (dir_idx + 1) % 4
                     else:
                         pos = (i2,j2)
