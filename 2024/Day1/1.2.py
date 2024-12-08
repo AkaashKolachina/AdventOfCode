@@ -6,14 +6,14 @@ lines = [x for x in data.split('\n')]
 x = []
 y = []
 for line in lines:
-    number1, number2 = line.split()
+    number1, number2 = map(float, line.split()) 
     line_list = list(line)
-    x.append(int(number1))
-    y.append(int(number2))
+    x.append(number1)
+    y.append(number2)
 
 score = 0
 for num in x:
     cnt = y.count(num)
     score += (num * cnt)
 
-print(score)
+print(int(score))
