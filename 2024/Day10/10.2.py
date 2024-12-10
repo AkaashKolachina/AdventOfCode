@@ -14,13 +14,13 @@ def get_neighbors(i,j):
     return nbs
 
 def bfs(i,j):
-    paths = set()
+    num_paths = 0
     visited = set(((i,j), frozenset((i,j))))
     q = deque([((i,j),set((i,j)))])
     while len(q):
         (i,j),path = q.pop()
         if grid[i][j] == 9:
-            paths.add(frozenset(path))
+            num_paths += 1
 
         nbs = get_neighbors(i,j)
         for nb in nbs:
@@ -28,7 +28,7 @@ def bfs(i,j):
                 visited.add(nb)
                 q.appendleft((nb,path | {nb}) )
     
-    return len(paths)
+    return num_paths
 
 total = 0
 for i in range(len(grid)):
