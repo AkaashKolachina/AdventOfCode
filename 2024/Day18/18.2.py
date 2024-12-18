@@ -20,8 +20,8 @@ def get_neighbors(i,j):
             nbs.append((i+di,j+dj))
     return nbs
 
-corrupted = set()
-for block in tqdm(lines):
+corrupted = set(lines[:1024])
+for block in lines[1024:]:
     corrupted.add(block)
     has_path = False
     q = [(0,(0,0))]
@@ -39,6 +39,6 @@ for block in tqdm(lines):
                 heappush(q,(dist+1,nb))
                 visited.add(nb)
     if not has_path:
-        print(block)
+        print("{},{}".format(block[0], block[1]))
         break
 
